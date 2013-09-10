@@ -1,0 +1,2 @@
+class RallyOrgApi::Donor
+end

@@ -1,0 +1,2 @@
+class RallyOrgApi::Fundraiser
+end

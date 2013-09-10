@@ -35,3 +35,8 @@ module RallyOrgApi
 end
 
 require "rally_org_api/version"
+require "rally_org_api/request"
+require "rally_org_api/cause"
+require "rally_org_api/fundraiser"
+require "rally_org_api/donor"
+require "rally_org_api/donation"
