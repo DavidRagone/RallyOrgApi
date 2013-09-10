@@ -6,17 +6,19 @@ class RallyOrgApi::Request
   end
 
   def discover
-    JSON.parse(get(uris[:discover] + access_token)).map do |cause_data|
+    JSON.parse(get(uris(:discover))).map do |cause_data|
       RallyOrgApi::Cause.new(cause_data)
     end
   end
 
   def causes
-    get 'url'
+    JSON.parse(get(uris(:causes))).map do |cause_data|
+      RallyOrgApi::Cause.new(cause_data)
+    end      
   end
 
   def cause(id)
-    get 'url'
+    RallyOrgApi::Cause.new(JSON.parse(get(uris(:cause, id))))
   end
 
   def top_donors_for_cause(id)
@@ -46,9 +48,11 @@ class RallyOrgApi::Request
   private
   attr_reader :access_token
 
-  def uris
+  def uris(uri, id='')
     {
-      discover: "https://rally.org/api/discover?access_token="
-    }
+      discover: "https://rally.org/api/discover",
+      causes: "https://rally.org/api/causes",
+      cause: "https://rally.org/api/causes/"
+    }[uri] + id + "?access_token=#{access_token}"
   end
 end
