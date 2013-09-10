@@ -1,5 +1,4 @@
 require_relative '../test_helper'
-require 'rest-client'
 
 describe RallyOrgApi do
   before { @module = RallyOrgApi }
@@ -30,21 +29,50 @@ describe RallyOrgApi do
     end
   end
 
-  describe "URI" do
+  describe ".uris" do
     it "stores uris" do
       @module.uris.keys.must_include(:oauth)
     end
   end
 
-  describe "authorize" do
-    it "visits auth url" do
+  describe ".authorize" do
+    before do
       @module.client_key = '123'
       @module.redirect_uri = 'http'
+    end
+
+    it "visits auth url" do
       rest_client_mock = MiniTest::Mock.new
       @module.stub(:web_request, rest_client_mock) do
-        rest_client_mock.expect :get, :return_value, ['http://rally.org/oauth/authorize?client_id=123&response_type=code&redirect_uri=http']
+        rest_client_mock.expect :get, :return_value, ['http://rally.org/oauth/au'\
+          'thorize?client_id=123&response_type=code&redirect_uri=http']
         @module.authorize
         rest_client_mock.verify
+      end
+    end
+  end
+
+  describe ".access_token" do
+    before do
+      @module.client_key = 'client_key'
+      @module.client_secret = 'client_secret'
+      @module.redirect_uri = 'redirect_url'
+    end
+
+    it "requests access_token" do
+      rest_client_mock = MiniTest::Mock.new
+      @module.stub(:web_request, rest_client_mock) do
+        rest_client_mock.expect :get, "{}", ["https://rally.org/oauth/"\
+          "token/?client_id=client_key&client_secret=client_secret&code=auth_code"\
+          "&grant_type=authorization_code&redirect_uri=redirect_url"]
+        @module.access_token('auth_code')
+        rest_client_mock.verify
+      end
+    end
+
+    it "returns access token" do
+      @module.stub(:get, '{"token_type":"bearer","access_token":"YOUR ACCESS TOKEN"}') do
+        @module.access_token('auth_code').must_equal "YOUR ACCESS TOKEN"
       end
     end
   end
