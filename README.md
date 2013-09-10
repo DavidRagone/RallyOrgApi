@@ -1,5 +1,11 @@
 # RallyOrgApi
 
+### WORK IN PROGRESS.
+
+Please feel free to contribute. I'm working through the [documentation](https://rally.org/corp/dev), endpoint-by-endpoint.
+
+This my first time using MiniTest Spec, so feel free to clean up my tests.
+
 ## Description
 
 This gem provides access to the [Rally.org api](https://rally.org/corp/dev).
