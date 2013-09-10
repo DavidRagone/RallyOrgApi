@@ -1,5 +1,9 @@
+require "rally_org_api/web_requests"
+
 module RallyOrgApi
   class << self
+    include WebRequests
+
     attr_accessor :client_key, :client_secret, :redirect_uri
     def configure
       yield self
@@ -15,21 +19,12 @@ module RallyOrgApi
       }
     end
 
-    def get(url)
-      web_request.get url
-    end
-
     def authorize
       get(uris[:oauth])
     end
 
     def access_token(auth_code)
       JSON.parse(get(uris[:access_token].call(auth_code)))['access_token']
-    end
-
-    private
-    def web_request
-      RestClient
     end
   end
 end
