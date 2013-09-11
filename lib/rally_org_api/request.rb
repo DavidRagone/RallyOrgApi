@@ -26,7 +26,9 @@ class RallyOrgApi::Request
   end
 
   def fundraisers_for_cause(id)
-    get 'url'
+    JSON.parse(get(uris(:cause, id, '/fundraisers'))).map do |fundraiser_data|
+      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'])
+    end
   end
 
   def donations_for_cause(id)
@@ -48,11 +50,11 @@ class RallyOrgApi::Request
   private
   attr_reader :access_token
 
-  def uris(uri, id='')
+  def uris(uri, id='', relation='')
     {
       discover: "https://rally.org/api/discover",
       causes: "https://rally.org/api/causes",
-      cause: "https://rally.org/api/causes/"
-    }[uri] + id + "?access_token=#{access_token}"
+      cause: "https://rally.org/api/causes/",
+    }[uri] + id + relation + "?access_token=#{access_token}"
   end
 end

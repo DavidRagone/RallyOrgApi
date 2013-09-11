@@ -172,6 +172,62 @@ describe RallyOrgApi::Request do
 
   describe "#fundraisers_for_cause" do
     it { @model.must_respond_to :fundraisers_for_cause }
+    it "makes request to cause(:id)/fundraisers endpoint" do
+      rest_client_mock = MiniTest::Mock.new
+      @model.stub(:web_request, rest_client_mock) do
+        rest_client_mock.expect(:get, '{}',
+          ['https://rally.org/api/causes/ABCDEFGH/fundraisers?access_token=token'])
+        @model.fundraisers_for_cause('ABCDEFGH')
+        rest_client_mock.verify
+      end
+    end
+
+    it "returns an Array of fundraiser objects" do
+      response = '[
+  {
+    "fundraiser": {
+      "current_fundraising_goal": null,
+      "donation_count": 13,
+      "created_at": "2012-07-12T11:50:56-07:00",
+      "total_raised": 4500,
+      "supporter_count": 7,
+      "rally_url": "https://rally.org/cuteanimalpictures/POLIKUJJ/billymays",
+      "id": "POLIKUJJ",
+      "raised_toward_fundraising_goal": null,
+      "cause_id": "ABCDEFGH",
+      "user": {
+        "name": "Billy Mays",
+        "icon_url": "https://some.url/here/pops.jpg",
+        "id": "nsbhdyfs"
+      }
+    }
+  },
+  {
+    "fundraiser": {
+      "current_fundraising_goal": null,
+      "donation_count": 0,
+      "created_at": "2012-08-23T16:52:26-07:00",
+      "total_raised": 0,
+      "supporter_count": 0,
+      "rally_url": "https://rally.org/cuteanimalpictures/YUKYUKYUK/sally",
+      "id": "YUKYUKYUK",
+      "raised_toward_fundraising_goal": null,
+      "cause_id": "ABCDEFGH",
+      "user": {
+        "name": "Sally Heaps",
+        "icon_url": "https://some.url/here/pops.jpg",
+        "id": "baMBaMbAm"
+      }
+    }
+  }
+]'
+      @model.stub(:get, response) do
+        @model.fundraisers_for_cause('a').must_be_instance_of Array
+        @model.fundraisers_for_cause('a').each do |response|
+          response.must_be_instance_of RallyOrgApi::Fundraiser
+        end
+      end
+    end
   end
 
   describe "#donations_for_cause" do
