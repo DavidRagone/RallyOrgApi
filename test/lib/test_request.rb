@@ -370,6 +370,40 @@ describe RallyOrgApi::Request do
 
   describe "#fundraiser" do
     it { @model.must_respond_to :fundraiser }
+
+    it "makes request to fundraisers/:id endpoint" do
+      rest_client_mock = MiniTest::Mock.new
+      @model.stub(:web_request, rest_client_mock) do
+        rest_client_mock.expect(:get, '{"fundraiser": {}}',
+          ['https://rally.org/api/fundraisers/POLIKUJJ?access_token=token'])
+        @model.fundraiser('POLIKUJJ')
+        rest_client_mock.verify
+      end
+    end
+
+    it "returns a fundraiser object" do
+      response = '{
+            "fundraiser": {
+              "current_fundraising_goal": null,
+              "donation_count": 13,
+              "created_at": "2012-07-12T11:50:56-07:00",
+              "total_raised": 4500,
+              "supporter_count": 7,
+              "rally_url": "https://rally.org/cuteanimalpictures/POLIKUJJ/billymays",
+              "id": "POLIKUJJ",
+              "raised_toward_fundraising_goal": null,
+              "cause_id": "ABCDEFGH",
+              "user": {
+                "name": "Billy Mays",
+                "icon_url": "https://some.url/here/pops.jpg",
+                "id": "nsbhdyfs"
+              }
+            }
+        }'
+      @model.stub(:get, response) do
+        @model.fundraiser('a').must_be_instance_of RallyOrgApi::Fundraiser
+      end
+    end
   end
 
   describe "#top_donors_for_fundraiser" do

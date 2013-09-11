@@ -46,8 +46,8 @@ class RallyOrgApi::Request
     raise StandardError, 'Not implemented (yet)'
   end
 
-  def fundraiser
-    get 'url'
+  def fundraiser(id)
+    RallyOrgApi::Fundraiser.new(JSON.parse(get(uris(:fundraiser, id)))['fundraiser'])
   end
 
   def top_donors_for_fundraiser(id)
@@ -63,6 +63,7 @@ class RallyOrgApi::Request
       discover: "https://rally.org/api/discover",
       causes: "https://rally.org/api/causes",
       cause: "https://rally.org/api/causes/",
+      fundraiser: "https://rally.org/api/fundraisers/"
     }[uri] + id + relation + "?access_token=#{access_token}" + additional_params
   end
 end
