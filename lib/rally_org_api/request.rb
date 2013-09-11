@@ -22,7 +22,9 @@ class RallyOrgApi::Request
   end
 
   def top_donors_for_cause(id)
-    get 'url'
+    JSON.parse(get(uris(:cause, id, '/top_donors'))).map do |donor_data|
+      RallyOrgApi::Donor.new(donor_data)
+    end
   end
 
   def fundraisers_for_cause(id)
@@ -31,12 +33,17 @@ class RallyOrgApi::Request
     end
   end
 
-  def donations_for_cause(id)
-    get 'url'
+  def donations_for_cause(id, options={})
+    # options[:start_date] YYYY-MM-DD
+    # options[:end_date]
+    # options[:page]
+    JSON.parse(get(uris(:cause, id, '/donations', options))).map do |donation_data|
+      RallyOrgApi::Donation.new(donation_data)
+    end
   end
 
   def fundraisers
-    get 'url'
+    raise StandardError, 'Not implemented (yet)'
   end
 
   def fundraiser
@@ -50,11 +57,12 @@ class RallyOrgApi::Request
   private
   attr_reader :access_token
 
-  def uris(uri, id='', relation='')
+  def uris(uri, id='', relation='', params={})
+    additional_params = params.any? ? params.map { |k,v| "&#{k}=#{v}" }.join : ''
     {
       discover: "https://rally.org/api/discover",
       causes: "https://rally.org/api/causes",
       cause: "https://rally.org/api/causes/",
-    }[uri] + id + relation + "?access_token=#{access_token}"
+    }[uri] + id + relation + "?access_token=#{access_token}" + additional_params
   end
 end

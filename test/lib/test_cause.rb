@@ -13,13 +13,36 @@ describe RallyOrgApi::Cause do
 
   describe "instance_variables, readers, writers" do
     before { @model = @class.new }
-    [:id, :name, :created_at, :total_raised, :donation_count,
-    :current_fundraising_goal, :raised_toward_fundraising_goal, :cause_type,
-    :cause_type_category, :image_url, :supporter_count, :website_url, :rally_url,
-    :headline, :blurb, :location, :location_zip].each do |variable|
-      it "for #{variable}" do
-        @model.send("#{variable}=", :foo)
-        @model.send(variable).must_equal :foo
+
+    describe "strings" do
+      [:id, :name, :cause_type, :cause_type_category,
+        :image_url, :website_url, :rally_url,
+        :headline, :blurb, :location, :location_zip
+      ].each do |variable|
+        it "for #{variable}" do
+          @model.send("#{variable}=", :foo)
+          @model.send(variable).must_equal :foo
+        end
+      end
+    end
+
+    describe "times" do
+      [:created_at]
+      it "for :created_at" do
+        @model.send(:created_at=, "2013-08-08 14:28:26")
+        @model.created_at.must_equal Time.new(*%w(2013 08 08 14 28 26))
+      end
+    end
+
+    describe "numbers" do
+      [:supporter_count, :total_raised, :donation_count, :current_fundraising_goal, 
+        :raised_toward_fundraising_goal,
+      ].each do |variable|
+        it "for #{variable}" do
+          @model.send("#{variable}=", 'string').must_equal 0
+          @model.send("#{variable}=", 5)
+          @model.send(variable).must_equal 5
+        end
       end
     end
   end
