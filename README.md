@@ -39,3 +39,11 @@ TODO: Write usage instructions here
 ## License
 
 This code is licensed under the MIT license (see LICENSE.txt)
+
+
+## TODO:
+* Go through classes, fix variable types based on input, add relationship functionality
+* Add ability to get some classes from others (e.g. fundraisers from a cause)
+* Find ways to make config easier
+* Review oauth reqs, code
+* Write example usage app

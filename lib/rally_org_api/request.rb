@@ -51,7 +51,7 @@ class RallyOrgApi::Request
   end
 
   def top_donors_for_fundraiser(id)
-    get 'url'
+    raise StandardError, 'Not implemented (yet)'
   end
 
   private
