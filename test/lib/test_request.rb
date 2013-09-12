@@ -408,5 +408,43 @@ describe RallyOrgApi::Request do
 
   describe "#top_donors_for_fundraiser" do
     it { @model.must_respond_to :top_donors_for_fundraiser }
+    it "makes request to fundraisers/:id/top_donors endpoint" do
+      rest_client_mock = MiniTest::Mock.new
+      @model.stub(:web_request, rest_client_mock) do
+        rest_client_mock.expect(:get, '[]',
+          ['https://rally.org/api/fundraisers/POLIKUJJ/top_donors?access_token=token'])
+        @model.top_donors_for_fundraiser('POLIKUJJ')
+        rest_client_mock.verify
+      end
+    end
+
+    it 'returns an Array of donor objects' do
+      response = '[
+          {
+            "first_name": "Billy",
+            "last_name": "Mays",
+            "id": "nsbhdyfs",
+            "amount": 900
+          },
+          {
+            "first_name": "Sally",
+            "last_name": "Heaps",
+            "id": "nsbhdyfs",
+            "amount": 800
+          },
+          {
+            "first_name": "Jeffery",
+            "last_name": "Giant",
+            "id": "nsbhdyfs",
+            "amount": 700
+          }
+        ]'
+      @model.stub(:get, response) do
+        @model.top_donors_for_fundraiser('a').must_be_instance_of Array
+        @model.top_donors_for_fundraiser('a').each do |response|
+          response.must_be_instance_of RallyOrgApi::Donor
+        end
+      end
+    end
   end
 end

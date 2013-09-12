@@ -14,7 +14,7 @@ class RallyOrgApi::Request
   def causes
     JSON.parse(get(uris(:causes))).map do |cause_data|
       RallyOrgApi::Cause.new(cause_data)
-    end      
+    end
   end
 
   def cause(id)
@@ -51,7 +51,9 @@ class RallyOrgApi::Request
   end
 
   def top_donors_for_fundraiser(id)
-    raise StandardError, 'Not implemented (yet)'
+    JSON.parse(get(uris(:fundraiser, id, '/top_donors'))).map do |donor_data|
+      RallyOrgApi::Donor.new(donor_data)
+    end
   end
 
   private
