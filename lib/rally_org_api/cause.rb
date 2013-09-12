@@ -26,6 +26,10 @@ class RallyOrgApi::Cause
     :cause_type_category, :image_url, :supporter_count, :website_url, :rally_url,
     :headline, :blurb, :location, :location_zip
 
+  def top_donors
+    @top_donors ||= request.top_donors_for_cause(id)
+  end
+
   private
   attr_writer :id, :name, :cause_type, :cause_type_category,
     :image_url, :website_url, :rally_url, :headline, :blurb,
@@ -40,5 +44,9 @@ class RallyOrgApi::Cause
 
   def created_at=(created_at)
     @created_at = Time.new(*created_at.split(/\W+/))
+  end
+
+  def request
+    RallyOrgApi::Request
   end
 end
