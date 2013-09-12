@@ -23,4 +23,6 @@ describe RallyOrgApi::Fundraiser do
       end
     end
   end
+
+  $request_methods.call(:top_donors, :top_donors_for_fundraiser)
 end
