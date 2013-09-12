@@ -26,7 +26,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Will write usage instructions once nearer completion.
 
 ## Contributing
 
@@ -42,8 +42,7 @@ This code is licensed under the MIT license (see LICENSE.txt)
 
 
 ## TODO:
-* Go through classes, fix variable types based on input, add relationship functionality
-* Add ability to get some classes from others (e.g. fundraisers from a cause)
+* Add relationship functionality (fundraiser.cause)
 * Find ways to make config easier
-* Review oauth reqs, code
+* Review oauth reqs, test code, forced types on ints
 * Write example usage app
