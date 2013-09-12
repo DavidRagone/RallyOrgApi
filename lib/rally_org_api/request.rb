@@ -43,7 +43,9 @@ class RallyOrgApi::Request
   end
 
   def fundraisers
-    raise StandardError, 'Not implemented (yet)'
+    JSON.parse(get(uris(:fundraiser))).map do |fundraiser_data|
+      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'])
+    end
   end
 
   def fundraiser(id)

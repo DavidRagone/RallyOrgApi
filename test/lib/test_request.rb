@@ -366,6 +366,63 @@ describe RallyOrgApi::Request do
 
   describe "#fundraisers" do
     it { @model.must_respond_to :fundraisers }
+
+    it "makes request to fundraisers endpoint" do
+      rest_client_mock = MiniTest::Mock.new
+      @model.stub(:web_request, rest_client_mock) do
+        rest_client_mock.expect(:get, '[]',
+          ['https://rally.org/api/fundraisers/?access_token=token'])
+        @model.fundraisers
+        rest_client_mock.verify
+      end
+    end
+
+    it "returns an array of fundraiser objects" do
+      response = '[
+            {
+              "fundraiser": {
+                "current_fundraising_goal": null,
+                "donation_count": 13,
+                "created_at": "2012-07-12T11:50:56-07:00",
+                "total_raised": 4500,
+                "supporter_count": 7,
+                "rally_url": "https://rally.org/cuteanimalpictures/POLIKUJJ/billymays",
+                "id": "POLIKUJJ",
+                "raised_toward_fundraising_goal": null,
+                "cause_id": "ABCDEFGH",
+                "user": {
+                  "name": "Billy Mays",
+                  "icon_url": "https://some.url/here/pops.jpg",
+                  "id": "nsbhdyfs"
+                }
+              }
+            },
+            {
+              "fundraiser": {
+                "current_fundraising_goal": null,
+                "donation_count": 13,
+                "created_at": "2012-07-12T11:50:56-07:00",
+                "total_raised": 4500,
+                "supporter_count": 7,
+                "rally_url": "https://rally.org/cuteanimalpictures/POLIKUJJ/billymays",
+                "id": "POLIKUJJ",
+                "raised_toward_fundraising_goal": null,
+                "cause_id": "ABCDEFGH",
+                "user": {
+                  "name": "Billy Mays",
+                  "icon_url": "https://some.url/here/pops.jpg",
+                  "id": "nsbhdyfs"
+                }
+              }
+            }
+        ]'
+      @model.stub(:get, response) do
+        @model.fundraisers.must_be_instance_of Array
+        @model.fundraisers.each do |response|
+          response.must_be_instance_of RallyOrgApi::Fundraiser
+        end
+      end
+    end
   end
 
   describe "#fundraiser" do
