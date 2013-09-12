@@ -34,6 +34,10 @@ class RallyOrgApi::Cause
     @fundraisers ||= request.fundraisers_for_cause(id)
   end
 
+  def donations
+    @donations ||= request.donations_for_cause(id)
+  end
+
   private
   attr_writer :id, :name, :cause_type, :cause_type_category,
     :image_url, :website_url, :rally_url, :headline, :blurb,

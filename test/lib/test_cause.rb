@@ -79,4 +79,5 @@ describe RallyOrgApi::Cause do
 
   request_methods.call(:top_donors, :top_donors_for_cause)
   request_methods.call(:fundraisers, :fundraisers_for_cause)
+  request_methods.call(:donations, :donations_for_cause)
 end
