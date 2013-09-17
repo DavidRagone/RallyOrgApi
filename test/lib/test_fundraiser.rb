@@ -25,4 +25,12 @@ describe RallyOrgApi::Fundraiser do
   end
 
   $request_methods.call(:top_donors, :top_donors_for_fundraiser)
+
+  describe "#set_cause" do
+    before { @model = @class.new }
+    it "is custom writer that returns the Fundraiser, not written attr" do
+      @model.set_cause('a').must_equal @model
+      @model.cause.must_equal 'a'
+    end
+  end
 end

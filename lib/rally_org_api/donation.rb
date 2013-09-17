@@ -10,9 +10,14 @@ class RallyOrgApi::Donation
 
   attr_reader :id, :private, :first_name, :last_name, :email, :amount_cents,
     :currency, :transaction_fee, :payment_type, :payment_method, :phone_number,
-    :occupation, :employer, :gender, :address_country, :address_address1, :address_city,
-    :address_state, :address_zip, :refunded, :birthdate, :custom_field_values,
-    :fundraiser_id, :cover_id, :created_at
+    :occupation, :employer, :gender, :address_country, :address_address1,
+    :address_city, :address_state, :address_zip, :refunded, :birthdate,
+    :custom_field_values, :fundraiser_id, :cover_id, :created_at, :cause
+
+  def set_cause(cause)
+    @cause = cause
+    self
+  end
 
   private
 

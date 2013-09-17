@@ -49,4 +49,12 @@ describe RallyOrgApi::Donation do
       end
     end
   end
+
+  describe "#set_cause" do
+    before { @model = @class.new }
+    it "is custom writer that returns the Donor, not written attr" do
+      @model.set_cause('a').must_equal @model
+      @model.cause.must_equal 'a'
+    end
+  end
 end

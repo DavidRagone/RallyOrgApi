@@ -23,13 +23,13 @@ class RallyOrgApi::Request
 
   def top_donors_for_cause(cause)
     JSON.parse(get(uris(:cause, cause, '/top_donors'))).map do |donor_data|
-      RallyOrgApi::Donor.new(donor_data)
+      RallyOrgApi::Donor.new(donor_data).set_cause(cause)
     end
   end
 
   def fundraisers_for_cause(cause)
     JSON.parse(get(uris(:cause, cause, '/fundraisers'))).map do |fundraiser_data|
-      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'])
+      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser']).set_cause(cause)
     end
   end
 
@@ -38,7 +38,7 @@ class RallyOrgApi::Request
     # options[:end_date]
     # options[:page]
     JSON.parse(get(uris(:cause, cause, '/donations', options))).map do |donation_data|
-      RallyOrgApi::Donation.new(donation_data)
+      RallyOrgApi::Donation.new(donation_data).set_cause(cause)
     end
   end
 
@@ -54,7 +54,7 @@ class RallyOrgApi::Request
 
   def top_donors_for_fundraiser(fundraiser)
     JSON.parse(get(uris(:fundraiser, fundraiser, '/top_donors'))).map do |donor_data|
-      RallyOrgApi::Donor.new(donor_data)
+      RallyOrgApi::Donor.new(donor_data).set_fundraiser(fundraiser)
     end
   end
 
