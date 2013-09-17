@@ -12,7 +12,7 @@ $request_methods = ->(method, request_method) do
 
     it "requests #{method.to_s.gsub('_', ' ')}" do
       @mock_requester = MiniTest::Mock.new
-      @mock_requester.expect request_method, :return_value, [@model.id]
+      @mock_requester.expect request_method, :return_value, [@model]
       @model.stub(:request, @mock_requester) do
         @model.send(method)
         @mock_requester.verify
@@ -21,7 +21,7 @@ $request_methods = ->(method, request_method) do
 
     it "memoizes" do
       @mock_requester = MiniTest::Mock.new
-      @mock_requester.expect request_method, :return_value, [@model.id]
+      @mock_requester.expect request_method, :return_value, [@model]
       @model.stub(:request, @mock_requester) do
         @model.send(method)
         @mock_requester.verify

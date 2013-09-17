@@ -46,6 +46,21 @@ describe RallyOrgApi::Cause do
     end
   end
 
+  describe "#to_s" do
+    context "when set" do
+      before { @model = @class.new(id: 1) }
+      it "returns the id" do
+        @model.to_s.must_equal 1
+      end
+    end
+    context "when not set" do
+      before { @model = @class.new }
+      it "returns the id" do
+        @model.to_s.must_equal nil
+      end
+    end
+  end
+
   $request_methods.call(:top_donors, :top_donors_for_cause)
   $request_methods.call(:fundraisers, :fundraisers_for_cause)
   $request_methods.call(:donations, :donations_for_cause)

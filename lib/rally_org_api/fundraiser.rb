@@ -15,7 +15,7 @@ class RallyOrgApi::Fundraiser
     :supporter_count, :rally_url, :cause_id, :user
 
   def top_donors
-    @top_donors ||= request.top_donors_for_fundraiser(id)
+    @top_donors ||= request.top_donors_for_fundraiser(self)
   end
 
   private

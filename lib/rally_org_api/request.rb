@@ -21,23 +21,23 @@ class RallyOrgApi::Request
     RallyOrgApi::Cause.new(JSON.parse(get(uris(:cause, id))))
   end
 
-  def top_donors_for_cause(id)
-    JSON.parse(get(uris(:cause, id, '/top_donors'))).map do |donor_data|
+  def top_donors_for_cause(cause)
+    JSON.parse(get(uris(:cause, cause, '/top_donors'))).map do |donor_data|
       RallyOrgApi::Donor.new(donor_data)
     end
   end
 
-  def fundraisers_for_cause(id)
-    JSON.parse(get(uris(:cause, id, '/fundraisers'))).map do |fundraiser_data|
+  def fundraisers_for_cause(cause)
+    JSON.parse(get(uris(:cause, cause, '/fundraisers'))).map do |fundraiser_data|
       RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'])
     end
   end
 
-  def donations_for_cause(id, options={})
+  def donations_for_cause(cause, options={})
     # options[:start_date] YYYY-MM-DD
     # options[:end_date]
     # options[:page]
-    JSON.parse(get(uris(:cause, id, '/donations', options))).map do |donation_data|
+    JSON.parse(get(uris(:cause, cause, '/donations', options))).map do |donation_data|
       RallyOrgApi::Donation.new(donation_data)
     end
   end
@@ -52,8 +52,8 @@ class RallyOrgApi::Request
     RallyOrgApi::Fundraiser.new(JSON.parse(get(uris(:fundraiser, id)))['fundraiser'])
   end
 
-  def top_donors_for_fundraiser(id)
-    JSON.parse(get(uris(:fundraiser, id, '/top_donors'))).map do |donor_data|
+  def top_donors_for_fundraiser(fundraiser)
+    JSON.parse(get(uris(:fundraiser, fundraiser, '/top_donors'))).map do |donor_data|
       RallyOrgApi::Donor.new(donor_data)
     end
   end
@@ -63,11 +63,12 @@ class RallyOrgApi::Request
 
   def uris(uri, id='', relation='', params={})
     additional_params = params.any? ? params.map { |k,v| "&#{k}=#{v}" }.join : ''
-    {
+    root = {
       discover: "https://rally.org/api/discover",
       causes: "https://rally.org/api/causes",
       cause: "https://rally.org/api/causes/",
       fundraiser: "https://rally.org/api/fundraisers/"
-    }[uri] + id + relation + "?access_token=#{access_token}" + additional_params
+    }[uri]
+   "#{root}#{id}#{relation}?access_token=#{access_token}#{additional_params}"
   end
 end
