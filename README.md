@@ -42,7 +42,6 @@ This code is licensed under the MIT license (see LICENSE.txt)
 
 
 ## TODO:
-* Add relationship functionality (fundraiser.cause)
 * Find ways to make config easier
 * Review oauth reqs, test code, forced types on ints
 * Write example usage app
