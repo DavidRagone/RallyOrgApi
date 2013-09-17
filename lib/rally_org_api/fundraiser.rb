@@ -24,6 +24,7 @@ class RallyOrgApi::Fundraiser
   end
 
   private
+
   attr_writer :id, :name, :created_at, :total_raised, :donation_count,
     :current_fundraising_goal, :raised_toward_fundraising_goal, 
     :supporter_count, :rally_url, :cause_id, :user

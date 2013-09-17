@@ -16,5 +16,6 @@ class RallyOrgApi::Donor
   end
 
   private
+
   attr_writer :id, :first_name, :last_name, :amount
 end

@@ -59,6 +59,7 @@ class RallyOrgApi::Request
   end
 
   private
+
   attr_reader :access_token
 
   def uris(uri, id='', relation='', params={})

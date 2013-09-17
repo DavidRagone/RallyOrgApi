@@ -25,6 +25,7 @@ class RallyOrgApi::Cause
   end
 
   private
+
   attr_writer :id, :name, :cause_type, :cause_type_category,
     :image_url, :website_url, :rally_url, :headline, :blurb, :location,
     :location_zip, :total_raised, :donation_count, :current_fundraising_goal,

@@ -5,6 +5,7 @@ module RallyOrgApi
     end
 
     private
+
     def web_request
       RestClient
     end
