@@ -13,12 +13,12 @@ class RallyOrgApi::Request
 
   def causes
     JSON.parse(get(uris(:causes))).map do |cause_data|
-      RallyOrgApi::Cause.new(cause_data)
+      RallyOrgApi::Cause.new(cause_data.merge({request: self}))
     end
   end
 
   def cause(id)
-    RallyOrgApi::Cause.new(JSON.parse(get(uris(:cause, id))))
+    RallyOrgApi::Cause.new(JSON.parse(get(uris(:cause, id))).merge({request: self}))
   end
 
   def top_donors_for_cause(cause)
@@ -29,7 +29,7 @@ class RallyOrgApi::Request
 
   def fundraisers_for_cause(cause)
     JSON.parse(get(uris(:cause, cause, '/fundraisers'))).map do |fundraiser_data|
-      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser']).set_cause(cause)
+      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'].merge({request: self})).set_cause(cause)
     end
   end
 
@@ -38,18 +38,18 @@ class RallyOrgApi::Request
     # options[:end_date]
     # options[:page]
     JSON.parse(get(uris(:cause, cause, '/donations', options))).map do |donation_data|
-      RallyOrgApi::Donation.new(donation_data).set_cause(cause)
+      RallyOrgApi::Donation.new(donation_data.merge({request: self})).set_cause(cause)
     end
   end
 
   def fundraisers
     JSON.parse(get(uris(:fundraiser))).map do |fundraiser_data|
-      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'])
+      RallyOrgApi::Fundraiser.new(fundraiser_data['fundraiser'].merge({request: self}))
     end
   end
 
   def fundraiser(id)
-    RallyOrgApi::Fundraiser.new(JSON.parse(get(uris(:fundraiser, id)))['fundraiser'])
+    RallyOrgApi::Fundraiser.new(JSON.parse(get(uris(:fundraiser, id)))['fundraiser'].merge({request: self}))
   end
 
   def top_donors_for_fundraiser(fundraiser)

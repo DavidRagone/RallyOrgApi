@@ -12,11 +12,19 @@ class RallyOrgApi::Donation
     :currency, :transaction_fee, :payment_type, :payment_method, :phone_number,
     :occupation, :employer, :gender, :address_country, :address_address1,
     :address_city, :address_state, :address_zip, :refunded, :birthdate,
-    :custom_field_values, :fundraiser_id, :cover_id, :created_at, :cause
+    :custom_field_values, :fundraiser_id, :cover_id, :created_at
 
   def set_cause(cause)
     @cause = cause
     self
+  end
+
+  def cause
+    if @cause.is_a? RallyOrgApi::Cause
+      @cause
+    elsif !!@cause
+      @cause = request.cause(@cause)
+    end
   end
 
   private
@@ -25,7 +33,8 @@ class RallyOrgApi::Donation
     :payment_type, :payment_method, :phone_number, :occupation, :employer,
     :gender, :address_country, :address_address1, :address_city, :address_state,
     :address_zip, :refunded, :custom_field_values, :fundraiser_id,
-    :cover_id, :amount_cents, :transaction_fee
+    :cover_id, :amount_cents, :transaction_fee, :request
+  attr_reader :request
 
   def birthdate=(birthdate)
     @birthdate = Time.new(*birthdate.split(/\W+/))

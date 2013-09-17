@@ -204,7 +204,6 @@ describe RallyOrgApi::Request do
         @model.top_donors_for_cause('a').must_be_instance_of Array
         @model.top_donors_for_cause('a').each do |response|
           response.must_be_instance_of RallyOrgApi::Donor
-          response.cause.must_equal 'a'
         end
       end
     end
@@ -266,7 +265,6 @@ describe RallyOrgApi::Request do
         @model.fundraisers_for_cause('a').must_be_instance_of Array
         @model.fundraisers_for_cause('a').each do |response|
           response.must_be_instance_of RallyOrgApi::Fundraiser
-          response.cause.must_equal 'a'
         end
       end
     end
@@ -361,7 +359,6 @@ describe RallyOrgApi::Request do
         @model.donations_for_cause('a').must_be_instance_of Array
         @model.donations_for_cause('a').each do |response|
           response.must_be_instance_of RallyOrgApi::Donation
-          response.cause.must_equal 'a'
         end
       end
     end
@@ -503,7 +500,6 @@ describe RallyOrgApi::Request do
         @model.top_donors_for_fundraiser('a').must_be_instance_of Array
         @model.top_donors_for_fundraiser('a').each do |response|
           response.must_be_instance_of RallyOrgApi::Donor
-          response.fundraiser.must_equal 'a'
         end
       end
     end

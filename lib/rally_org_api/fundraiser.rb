@@ -12,7 +12,7 @@ class RallyOrgApi::Fundraiser
 
   attr_reader :id, :name, :created_at, :total_raised, :donation_count,
     :current_fundraising_goal, :raised_toward_fundraising_goal, 
-    :supporter_count, :rally_url, :cause_id, :user, :cause
+    :supporter_count, :rally_url, :cause_id, :user
 
   def top_donors
     @top_donors ||= request.top_donors_for_fundraiser(self)
@@ -23,13 +23,18 @@ class RallyOrgApi::Fundraiser
     self
   end
 
+  def cause
+    if @cause.is_a? RallyOrgApi::Cause
+      @cause
+    elsif !!@cause
+      @cause = request.cause(@cause)
+    end
+  end
+
   private
 
   attr_writer :id, :name, :created_at, :total_raised, :donation_count,
     :current_fundraising_goal, :raised_toward_fundraising_goal, 
-    :supporter_count, :rally_url, :cause_id, :user
-
-  def request
-    RallyOrgApi::Request
-  end
+    :supporter_count, :rally_url, :cause_id, :user, :request
+  attr_reader :request
 end

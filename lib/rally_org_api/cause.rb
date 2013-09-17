@@ -29,14 +29,11 @@ class RallyOrgApi::Cause
   attr_writer :id, :name, :cause_type, :cause_type_category,
     :image_url, :website_url, :rally_url, :headline, :blurb, :location,
     :location_zip, :total_raised, :donation_count, :current_fundraising_goal,
-    :raised_toward_fundraising_goal, :supporter_count
+    :raised_toward_fundraising_goal, :supporter_count, :request
+  attr_reader :request
 
   def created_at=(created_at)
     @created_at = Time.new(*created_at.split(/\W+/))
-  end
-
-  def request
-    RallyOrgApi::Request
   end
 
   # id : The unique identifier that references the cause
