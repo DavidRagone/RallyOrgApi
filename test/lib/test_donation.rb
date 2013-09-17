@@ -29,8 +29,8 @@ describe RallyOrgApi::Donation do
 
     describe "numbers" do
       %i(amount_cents transaction_fee).each do |variable|
-        it "for #{variable}" do
-          @model.send("#{variable}=", 'string').must_equal 0
+        it "for #{variable}, trust input JSON to be correct (accept any input)" do
+          @model.send("#{variable}=", 'string').must_equal 'string'
           @model.send("#{variable}=", 5)
           @model.send(variable).must_equal 5
         end

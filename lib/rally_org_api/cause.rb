@@ -40,15 +40,9 @@ class RallyOrgApi::Cause
 
   private
   attr_writer :id, :name, :cause_type, :cause_type_category,
-    :image_url, :website_url, :rally_url, :headline, :blurb,
-    :location, :location_zip
-
-
-  [:total_raised, :donation_count, :current_fundraising_goal,
+    :image_url, :website_url, :rally_url, :headline, :blurb, :location,
+    :location_zip, :total_raised, :donation_count, :current_fundraising_goal,
     :raised_toward_fundraising_goal, :supporter_count
-  ].each do |sym|
-    class_eval("def #{sym}=(val);@#{sym}=val.to_i;end")
-  end
 
   def created_at=(created_at)
     @created_at = Time.new(*created_at.split(/\W+/))

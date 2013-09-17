@@ -20,7 +20,7 @@ class RallyOrgApi::Donation
     :payment_type, :payment_method, :phone_number, :occupation, :employer,
     :gender, :address_country, :address_address1, :address_city, :address_state,
     :address_zip, :refunded, :custom_field_values, :fundraiser_id,
-    :cover_id
+    :cover_id, :amount_cents, :transaction_fee
 
   def birthdate=(birthdate)
     @birthdate = Time.new(*birthdate.split(/\W+/))
@@ -28,9 +28,5 @@ class RallyOrgApi::Donation
 
   def created_at=(created_at)
     @created_at = Time.new(*created_at.split(/\W+/))
-  end
-
-  [:amount_cents, :transaction_fee].each do |sym|
-    class_eval("def #{sym}=(val);@#{sym}=val.to_i;end")
   end
 end
